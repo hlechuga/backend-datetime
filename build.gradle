@@ -1,11 +1,13 @@
 plugins {
+    id 'java'
 	id 'org.springframework.boot' version '2.4.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'com.palantir.docker' version '0.26.0'
 }
 
 group = 'com.hlechuga'
 sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
@@ -18,4 +20,15 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+jar {
+    archiveBaseName = 'backend-datetime'
+}
+
+docker {
+    dependsOn assemble
+    name "${targetDockerRegistry}/${rootProject.name}:${version}"
+    files jar.archivePath
+    buildArgs(['JAR_FILE': "${jar.archiveName}"])
 }
