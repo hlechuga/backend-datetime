@@ -30,14 +30,14 @@ jar {
 
 docker {
     dependsOn assemble
-    name "${targetDockerRegistry}/${rootProject.name}:${version}"
+    name "${IMAGE_REGISTRY}/${PROJECT_NAME}:${IMAGE_VERSION}"
     files jar.archivePath
     buildArgs(['JAR_FILE': "${jar.archiveName}"])
 }
 
 dockerRun {
-    name "${rootProject.name}"
-    image "${targetDockerRegistry}/${rootProject.name}:${version}"
+    name "${PROJECT_NAME}"
+    image "${IMAGE_REGISTRY}/${PROJECT_NAME}:${IMAGE_VERSION}"
     ports '8080:8080'
     env 'TZ': 'Asia/Manila'
     clean true
