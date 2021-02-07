@@ -1,6 +1,8 @@
 global:
   repo: docker.io/hlechuga
   revisionHistoryLimit: 5
+  labels:
+    env: dev
 service:
   http:
     port: 8080
@@ -14,15 +16,15 @@ main:
   replicas: 1
   resources:
     requests:
-      cpu: "100m"
-      memory: "128Mi"
+      cpu: "20m"
+      memory: "20Mi"
     limits:
-      cpu: "200m"
-      memory: "256Mi"
+      cpu: "100m"
+      memory: "200Mi"
   readinessProbe:
     path: /actuator/health
     port: 8080
-    initialDelaySeconds: 5
+    initialDelaySeconds: 20
     periodSeconds: 10
     successThreshold: 2
     timeoutSeconds: 1

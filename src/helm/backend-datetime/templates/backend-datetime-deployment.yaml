@@ -8,6 +8,7 @@ spec:
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
+      env: {{ .Values.main.labels.env }}
   template:
     metadata:
       labels:
