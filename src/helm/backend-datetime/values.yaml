@@ -1,0 +1,32 @@
+global:
+  repo: docker.io/hlechuga
+  revisionHistoryLimit: 5
+  labels:
+    env: dev
+service:
+  http:
+    port: 8080
+    targetPort: 8080
+    name: http
+main:
+  name: backend-datetime
+  image: backend-datetime
+  env:
+    tz: UTC
+  replicas: 1
+  resources:
+    requests:
+      cpu: "20m"
+      memory: "20Mi"
+    limits:
+      cpu: "100m"
+      memory: "200Mi"
+  readinessProbe:
+    path: /actuator/health
+    port: 8080
+    initialDelaySeconds: 20
+    periodSeconds: 10
+    successThreshold: 2
+    timeoutSeconds: 1
+    failureThreshold: 3
+  containerPort: 8080

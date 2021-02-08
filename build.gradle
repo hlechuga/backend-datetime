@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '2.4.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'com.palantir.docker' version '0.26.0'
+    id 'com.palantir.docker-run' version '0.26.0'
 }
 
 group = 'com.hlechuga'
@@ -15,6 +16,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
@@ -28,7 +30,15 @@ jar {
 
 docker {
     dependsOn assemble
-    name "${targetDockerRegistry}/${rootProject.name}:${version}"
+    name "${IMAGE_REGISTRY}/${PROJECT_NAME}:${IMAGE_VERSION}"
     files jar.archivePath
     buildArgs(['JAR_FILE': "${jar.archiveName}"])
+}
+
+dockerRun {
+    name "${PROJECT_NAME}"
+    image "${IMAGE_REGISTRY}/${PROJECT_NAME}:${IMAGE_VERSION}"
+    ports '8080:8080'
+    env 'TZ': 'Asia/Manila'
+    clean true
 }
