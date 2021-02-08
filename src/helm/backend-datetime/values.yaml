@@ -1,8 +1,6 @@
 global:
   repo: docker.io/hlechuga
   revisionHistoryLimit: 5
-  labels:
-    env: dev
 service:
   http:
     port: 8080
